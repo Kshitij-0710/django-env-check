@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-env-check"
-version = "0.1.1"
+version = "0.1.2"
 description = "A tiny helper to validate required environment variables for Django."
 readme = "README.md"
 authors = [

@@ -1,45 +1,51 @@
-📦 django-env-check
+<div align="center">
 
-A tiny, zero-dependency helper that ensures all required environment variables are present before your Django app starts.
+# 🛡️ django-env-check
 
-Useful for:
+### **Validate your environment variables before Django starts**
 
-catching missing .env keys early
+[![PyPI version](https://badge.fury.io/py/django-env-check.svg)](https://badge.fury.io/py/django-env-check)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Downloads](https://pepy.tech/badge/django-env-check)](https://pepy.tech/project/django-env-check)
 
-avoiding silent misconfigurations in production
+**A tiny, zero-dependency helper that ensures all required environment variables are present before your Django app starts.**
 
-safer deployments
+[Installation](#-installation) • [Usage](#-usage) • [Features](#-features) • [Contributing](#-contributing)
 
-enforcing required environment setup
+</div>
 
-Simple, lightweight, and framework-friendly.
+---
 
-🚀 Installation
+## 🎯 Why django-env-check?
+
+Every Django project relies on environment variables, but **most developers never validate whether they exist**. This leads to:
+
+- ❌ Missing `SECRET_KEY` or `DATABASE_URL`
+- ❌ Silent misconfigurations in production
+- ❌ Email failures due to missing credentials
+- ❌ API integration issues
+- ❌ Hard-to-debug runtime errors
+
+**django-env-check solves this with one line of code.** ✨
+
+---
+
+## 🚀 Installation
+
+```bash
 pip install django-env-check
+```
 
-🧠 Why this package?
+---
 
-Every Django project uses environment variables.
-But most developers never validate whether the required ones exist.
+## 📖 Usage
 
-This leads to:
+### Basic Usage
 
-missing SECRET_KEY
+Add this at the **top of your `settings.py`**:
 
-wrong DATABASE_URL
-
-email failures
-
-API tokens missing
-
-difficult-to-debug production issues
-
-django-env-check solves this with one line of code.
-
-🔧 Usage
-
-Add this at the top of your settings.py:
-
+```python
 from env_check import check_env
 
 check_env([
@@ -48,79 +54,129 @@ check_env([
     "EMAIL_HOST_USER",
     "EMAIL_HOST_PASSWORD"
 ])
+```
 
+If any variable is missing, Django **will refuse to start**:
 
-If any variable is missing, Django will refuse to start:
-
+```
 [django-env-check] Missing environment variables: SECRET_KEY, DATABASE_URL
+```
 
-🟡 Warning Mode (recommended for development)
+### 🟡 Warning Mode (Development)
 
-In dev mode you may not want hard failures.
+In development, you may want **warnings instead of hard failures**:
 
+```python
 check_env(["SECRET_KEY"], warn_only=True)
+```
 
+**Output:**
+```
+⚠️  WARNING: [django-env-check] Missing environment variables: SECRET_KEY
+```
 
-Output:
+### 💡 Auto-enable Warning Mode in DEBUG
 
-WARNING: [django-env-check] Missing environment variables: SECRET_KEY
+```python
+from django.conf import settings
 
-💡 Tip: Auto-enable warning mode in DEBUG
-check_env(["SECRET_KEY", "DATABASE_URL"], warn_only=DEBUG)
+check_env(
+    ["SECRET_KEY", "DATABASE_URL"],
+    warn_only=settings.DEBUG
+)
+```
 
-✔ Return Value
+---
 
-check_env(...) returns True when:
+## ✨ Features
 
-all variables exist
+### ✅ Return Value
 
-or warn_only=True (even if missing)
+`check_env(...)` returns `True` when:
+- All variables exist **OR**
+- `warn_only=True` (even if variables are missing)
 
-You can use this inside custom logic if needed.
+Use this in custom logic:
 
-❗ Custom Exception
+```python
+if check_env(["API_KEY"], warn_only=True):
+    # Continue with setup
+    pass
+```
 
-If not using warning mode, missing variables raise:
+### ❗ Custom Exception Handling
 
-env_check.EnvMissingError
+Missing variables raise `EnvMissingError`:
 
-
-You can catch it manually:
-
+```python
 from env_check import check_env, EnvMissingError
 
 try:
     check_env(["SECRET_KEY"])
 except EnvMissingError as e:
-    print("Config error:", str(e))
+    print(f"⚠️  Config error: {e}")
+```
 
-📁 Folder Structure
-env_check/
-    checker.py
-    __init__.py
-pyproject.toml
-README.md
-LICENSE
+---
 
-🧪 Testing your installation
+## 🧪 Testing Your Installation
+
+**Test warning mode:**
+```bash
 python -c "from env_check import check_env; check_env(['X'], warn_only=True)"
+```
 
+**Test error mode (should raise `EnvMissingError`):**
+```bash
 python -c "from env_check import check_env; check_env(['X'])"
+```
 
+---
 
-(Second one should raise EnvMissingError.)
+## 📁 Project Structure
 
-📜 License
+```
+django-env-check/
+├── env_check/
+│   ├── __init__.py
+│   └── checker.py
+├── pyproject.toml
+├── README.md
+└── LICENSE
+```
 
-MIT License.
-Feel free to use, modify and contribute.
+---
 
-🤝 Contributing
+## 🤝 Contributing
 
-Pull requests are welcome!
-If you’d like to improve features (like returning missing keys or adding default fallbacks), feel free to open an issue.
+Contributions are **welcome**! 🎉
 
-⭐ Support the project
+- 🐛 Found a bug? [Open an issue](https://github.com/YOUR_USERNAME/django-env-check/issues)
+- 💡 Have a feature idea? [Submit a pull request](https://github.com/YOUR_USERNAME/django-env-check/pulls)
+- 📝 Improve documentation? PRs are appreciated!
 
-If this package helps you, give it a star on GitHub ❤️
-Your support encourages new features & improvements.
+---
+
+## 📜 License
+
+**MIT License** – Free to use, modify, and distribute.
+
+---
+
+## ⭐ Support the Project
+
+If **django-env-check** helps you catch bugs early and ship safer code, please:
+
+- ⭐ **Star this repo** on GitHub
+- 🐦 **Share it** with your Django community
+- 💬 **Leave feedback** or suggestions
+
+Your support encourages new features & improvements! ❤️
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the Django community**
+
+</div>
