@@ -171,7 +171,7 @@ If **django-env-check** helps you catch bugs early and ship safer code, please:
 - 🐦 **Share it** with your Django community
 - 💬 **Leave feedback** or suggestions
 
-Your support encourages new features & improvements! ❤️
+Your support encourages new features & improvements!! ❤️
 
 ---
 
