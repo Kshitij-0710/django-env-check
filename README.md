@@ -27,7 +27,7 @@ Every Django project relies on environment variables, but **most developers neve
 - ❌ API integration issues
 - ❌ Hard-to-debug runtime errors
 
-**django-env-check solves this with one line of code.** ✨
+**django-env-check solves this with one line of code.** 
 
 ---
 
